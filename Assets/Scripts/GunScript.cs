@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GunWeight : MonoBehaviour
+public class GunScript : MonoBehaviour
 {
     public Transform target;
     public Transform recoilObject;
