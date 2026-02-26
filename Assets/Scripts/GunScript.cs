@@ -17,17 +17,13 @@ public class GunScript : MonoBehaviour
 
     public TextMeshProUGUI ammoText;
 
-    void Start()
-    {
-        ammoText.text = ("Ammo: " + ammo);
-    }
-
     void Update()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             FireWeapon();
         }
+        ammoText.text = ("Ammo: " + ammo);
     }
 
     void LateUpdate()
@@ -48,7 +44,6 @@ public class GunScript : MonoBehaviour
         if (ammo > 0)
         {
             ammo--;
-            ammoText.text = ("Ammo: " + ammo);
 
             RaycastHit hit;
             if (Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, 1000))

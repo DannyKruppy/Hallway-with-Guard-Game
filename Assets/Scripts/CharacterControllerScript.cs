@@ -15,9 +15,16 @@ public class CharacterControllerScript : MonoBehaviour
     public float mouseSens;
     private float xRotation;
 
+    public bool hasDynamite;
+    public GameObject dynamite;
+
+    public bool hasGold;
+    public GameObject gold;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        hasDynamite = false;
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -29,6 +36,27 @@ public class CharacterControllerScript : MonoBehaviour
         Movement();
         MouseLook();
         Gravity();
+
+        if(hasDynamite)
+        {
+            dynamite.SetActive(true);
+        }
+        else
+        {
+            dynamite.SetActive(false);
+        }
+
+        if (hasGold)
+        {
+            gold.SetActive(true);
+        }
+        else
+        {
+            gold.SetActive(false);
+        }
+
+        if (Keyboard.current.wKey.isPressed)
+            Application.Quit();
     }
 
     void Movement()

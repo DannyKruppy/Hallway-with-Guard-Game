@@ -18,6 +18,8 @@ public class VaultScript : MonoBehaviour
 
     public Transform doorMesh;
 
+    public CharacterControllerScript character;
+
     void Start()
     {
         promptUI.SetActive(false);
@@ -41,6 +43,8 @@ public class VaultScript : MonoBehaviour
                 isOpening = true;
                 isOpen = true;
                 promptUI.SetActive(false);
+
+                character.hasDynamite = false;
             }
         }
 
@@ -86,11 +90,11 @@ public class VaultScript : MonoBehaviour
             return false;
 
         //raycast to check obstruction
-        if (Physics.Raycast(playerCamera.position, toDoor, out RaycastHit hit, maxDistance))
+        /* if (Physics.Raycast(playerCamera.position, toDoor, out RaycastHit hit, maxDistance))
         {
             if (hit.transform != doorMesh)
                 return false;
-        }
+        } */
 
         return true;
     }
