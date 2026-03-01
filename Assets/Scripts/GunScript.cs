@@ -14,6 +14,27 @@ public class GunScript : MonoBehaviour
     public GameObject hitEffect;
 
     private int ammo = 6;
+    private int spareAmmo = 0;
+
+    public TextMeshProUGUI reserveText;
+    public GameObject textHolder;
+
+    public int SpareAmmo
+    {
+        get
+        {
+            return spareAmmo;
+        }
+        set
+        {
+            spareAmmo = value;
+            reserveText.text = "+ " + spareAmmo;
+            if (spareAmmo == 0)
+                textHolder.SetActive(false);
+            else
+                textHolder.SetActive(true);
+        }
+    }
 
     public int Ammo
     {
@@ -44,6 +65,11 @@ public class GunScript : MonoBehaviour
     void Start()
     {
         HandleAmmo();
+        reserveText.text = "+ " + spareAmmo;
+        if (spareAmmo == 0)
+            textHolder.SetActive(false);
+        else
+            textHolder.SetActive(true);
     }
 
     void Update()
@@ -51,6 +77,11 @@ public class GunScript : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             FireWeapon();
+        }
+
+        if (Keyboard.current.rKey.wasPressedThisFrame && spareAmmo > 0 && ammo < 6)
+        {
+            HandleSpareAmmo();
         }
 
         ammoMeter.transform.localRotation = Quaternion.Slerp(
@@ -159,5 +190,16 @@ public class GunScript : MonoBehaviour
         float targetAngle = (7 - ammo) * anglePerBullet;
 
         ammoTargetRotation = Quaternion.Euler(0f, 0f, targetAngle);
+    }
+
+    private void HandleSpareAmmo()
+    {
+        Ammo++;
+        spareAmmo--;
+        reserveText.text = "+ " + spareAmmo;
+        if (spareAmmo == 0)
+            textHolder.SetActive(false);
+        else
+            textHolder.SetActive(true);
     }
 }

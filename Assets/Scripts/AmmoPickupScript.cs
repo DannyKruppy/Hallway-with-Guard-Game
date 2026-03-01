@@ -37,7 +37,7 @@ public class AmmoPickupScript : MonoBehaviour
         {
             if (Keyboard.current.eKey.wasPressedThisFrame)
             {
-                gunScript.Ammo++;
+                gunScript.SpareAmmo++;
                 Destroy(gameObject);
             }
         }
