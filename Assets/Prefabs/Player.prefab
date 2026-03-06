@@ -213,7 +213,6 @@ MonoBehaviour:
   sprintSpeed: 9
   gravity: -9.8
   mainCamera: {fileID: 4977473722097567150}
-  mouseSens: 0.1
   hasDynamite: 0
   dynamite: {fileID: 0}
   hasGold: 0
