@@ -8,8 +8,16 @@ public class GoldScript : MonoBehaviour
 
     private bool isPlayer = false;
 
+    private Controls controls;
+    private InputAction interactInput;
+
     private void Start()
     {
+        controls = new Controls();
+        controls.Player.Enable();
+
+        interactInput = controls.Player.Interact;
+
         pickupText.SetActive(false);
     }
 
@@ -35,7 +43,7 @@ public class GoldScript : MonoBehaviour
     {
         if (isPlayer)
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            if (interactInput.WasPressedThisFrame())
             {
                 character.hasGold = true;
                 Destroy(gameObject);

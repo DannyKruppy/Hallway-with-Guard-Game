@@ -7,6 +7,11 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 public class CharacterControllerScript : MonoBehaviour
 {
     private CharacterController controller;
+    
+    private Controls controls;
+    private Vector2 lookInput;
+    private Vector2 moveInput;
+    private InputAction sprintInput;
 
     public float speed = 4.0f;
     public float sprintSpeed = 7.0f;
@@ -15,7 +20,6 @@ public class CharacterControllerScript : MonoBehaviour
 
     public Transform mainCamera;
 
-    public float mouseSens;
     private float xRotation;
 
     public bool hasDynamite;
@@ -38,6 +42,11 @@ public class CharacterControllerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        controls = new Controls();
+        controls.Player.Enable();
+
+        sprintInput = controls.Player.Sprint;
+
         hasDynamite = false;
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -50,7 +59,7 @@ public class CharacterControllerScript : MonoBehaviour
     void Update()
     {
         Movement();
-        MouseLook();
+        Look();
         Gravity();
 
         if(hasDynamite)
@@ -81,24 +90,13 @@ public class CharacterControllerScript : MonoBehaviour
 
     void Movement()
     {
-        float forwardInput = 0f;
-        float sideInput = 0f;
-
-        if (Keyboard.current.wKey.isPressed)
-            forwardInput += 1f;
-
-        if (Keyboard.current.sKey.isPressed)
-            forwardInput -= 1f;
-
-        if (Keyboard.current.aKey.isPressed)
-            sideInput -= 1f;
-
-        if (Keyboard.current.dKey.isPressed)
-            sideInput += 1f;
+        moveInput = controls.Player.Move.ReadValue<Vector2>();
+        float forwardInput = moveInput.y;
+        float sideInput = moveInput.x;
 
         Vector3 move = (transform.right * sideInput + transform.forward * forwardInput).normalized;
 
-        if (Keyboard.current.leftShiftKey.isPressed && Keyboard.current.wKey.isPressed && sprint > 0)
+        if (sprintInput.IsPressed() && forwardInput > 0 && sprint > 0)
         {
             controller.Move(move * sprintSpeed * Time.deltaTime);
             sprint -= drainRate * Time.fixedDeltaTime;
@@ -109,17 +107,17 @@ public class CharacterControllerScript : MonoBehaviour
         }
     }
 
-    void MouseLook()
+    void Look()
     {
-        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+        lookInput = controls.Player.Look.ReadValue<Vector2>();
 
-        float mouseX = mouseDelta.x * mouseSens;
-        float mouseY = mouseDelta.y * mouseSens;
+        float lookX = lookInput.x;
+        float lookY = lookInput.y;
 
-        transform.Rotate(Vector3.up * mouseX);
+        transform.Rotate(Vector3.up * lookX);
 
         // Rotate camera up/down
-        xRotation -= mouseY;
+        xRotation -= lookY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         mainCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);

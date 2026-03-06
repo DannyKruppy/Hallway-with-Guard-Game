@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class VaultScript : MonoBehaviour
 {
@@ -20,8 +21,16 @@ public class VaultScript : MonoBehaviour
 
     public CharacterControllerScript character;
 
+    private Controls controls;
+    private InputAction interactInput;
+
     void Start()
     {
+        controls = new Controls();
+        controls.Player.Enable();
+
+        interactInput = controls.Player.Interact;
+
         promptUI.SetActive(false);
 
         closedRotation = transform.localRotation;
@@ -38,7 +47,7 @@ public class VaultScript : MonoBehaviour
         {
             promptUI.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E) && !isOpen && character.hasDynamite == true)
+            if (interactInput.WasPressedThisFrame() && !isOpen && character.hasDynamite == true)
             {
                 isOpening = true;
                 isOpen = true;

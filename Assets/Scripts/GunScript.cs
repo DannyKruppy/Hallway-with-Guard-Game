@@ -1,9 +1,15 @@
+using TMPro;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class GunScript : MonoBehaviour
 {
+    private Controls controls;
+    private InputAction shootInput;
+    private InputAction aimInput;
+    private InputAction reloadInput;
+
     public Transform target;
     public Transform adsTarget;
     public Transform recoilObject;
@@ -64,6 +70,13 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
+        controls = new Controls();
+        controls.Player.Enable();
+
+        shootInput = controls.Player.Shoot;
+        aimInput = controls.Player.Aim;
+        reloadInput = controls.Player.Reload;
+
         HandleAmmo();
         reserveText.text = "+ " + spareAmmo;
         if (spareAmmo == 0)
@@ -74,12 +87,12 @@ public class GunScript : MonoBehaviour
 
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (shootInput.WasPressedThisFrame())
         {
             FireWeapon();
         }
 
-        if (Keyboard.current.rKey.wasPressedThisFrame && spareAmmo > 0 && ammo < 6)
+        if (reloadInput.WasPressedThisFrame() && spareAmmo > 0 && ammo < 6)
         {
             HandleSpareAmmo();
         }
@@ -93,7 +106,7 @@ public class GunScript : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Mouse.current.rightButton.isPressed)
+        if (aimInput.IsPressed())
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, adsTarget.localPosition, followSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Slerp(transform.rotation, adsTarget.rotation, rotationFollowSpeed * Time.deltaTime);

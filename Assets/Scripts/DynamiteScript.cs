@@ -8,8 +8,16 @@ public class DynamiteScript : MonoBehaviour
 
     private bool isPlayer = false;
 
+    private Controls controls;
+    private InputAction interactInput;
+
     private void Start()
     {
+        controls = new Controls();
+        controls.Player.Enable();
+
+        interactInput = controls.Player.Interact;
+
         pickupText.SetActive(false);
     }
 
@@ -35,7 +43,7 @@ public class DynamiteScript : MonoBehaviour
     {
         if (isPlayer)
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            if (interactInput.WasPressedThisFrame())
             {
                 character.hasDynamite = true;
                 Destroy(gameObject);
