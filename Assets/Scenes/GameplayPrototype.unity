@@ -6041,7 +6041,7 @@ PrefabInstance:
       objectReference: {fileID: 1376850667}
     - target: {fileID: 4425021799047570002, guid: ba287990f4cfe8d4ebcf248aaac193c4, type: 3}
       propertyPath: instantAggroRange
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4425021799047570002, guid: ba287990f4cfe8d4ebcf248aaac193c4, type: 3}
       propertyPath: 'waypoints.Array.data[0]'

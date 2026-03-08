@@ -49,7 +49,7 @@ public class EnemyScript : MonoBehaviour
         suspicion = Mathf.Clamp(suspicion, 0f, 100f);
         suspicionText.text = ("Suspicion %: " + suspicion);
 
-        if (direction.magnitude <= instantAggroRange)
+        if (Physics.Raycast(raySender.position, direction.normalized, out hit, direction.magnitude) && hit.collider.CompareTag("Player") && direction.magnitude <= instantAggroRange)
         {
             suspicion = 100f;
         } 
