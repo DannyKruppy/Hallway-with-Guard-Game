@@ -24,10 +24,17 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync(2);
     }
 
+     public void Lore()
+    {
+        SceneManager.LoadSceneAsync(4);
+    }
+
     public void BacktoMain()
     {
         SceneManager.LoadSceneAsync(0);
     }
+
+   
 
 
     
