@@ -127,6 +127,11 @@ public class GunScript : MonoBehaviour
             if (Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hit, 1000))
             {
                 Instantiate(hitEffect, hit.point, Quaternion.identity);
+
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    hit.collider.GetComponent<EnemyScript>().Stun();
+                }
             }
 
             transform.position = recoilObject.position;
