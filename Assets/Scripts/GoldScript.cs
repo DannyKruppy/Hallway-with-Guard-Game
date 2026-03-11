@@ -45,6 +45,7 @@ public class GoldScript : MonoBehaviour
         {
             if (interactInput.WasPressedThisFrame())
             {
+                pickupText.SetActive(false);
                 character.hasGold = true;
                 Destroy(gameObject);
             }

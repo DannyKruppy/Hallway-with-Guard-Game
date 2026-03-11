@@ -47,6 +47,7 @@ public class DynamiteScript : MonoBehaviour
             {
                 character.hasDynamite = true;
                 Destroy(gameObject);
+                pickupText.SetActive(false);
             }
         }
     }

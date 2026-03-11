@@ -10,6 +10,9 @@ public class VaultScript : MonoBehaviour
     public float maxDistance = 7f;
     public GameObject promptUI;
     public GameObject dynamite;
+    public ParticleSystem vaultOpenVFX;
+
+    public AudioSource VaultExplosion;
 
     public float openAngle = 80f;
     public float openSpeed = 60f;
@@ -34,7 +37,10 @@ public class VaultScript : MonoBehaviour
         promptUI.SetActive(false);
 
         closedRotation = transform.localRotation;
-        openRotation = Quaternion.Euler(transform.localEulerAngles.x,transform.localEulerAngles.y - openAngle, transform.localEulerAngles.z);;
+        openRotation = closedRotation * Quaternion.AngleAxis(-openAngle, Vector3.up);
+
+        if (vaultOpenVFX != null)
+            vaultOpenVFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     // Update is called once per frame
@@ -43,7 +49,7 @@ public class VaultScript : MonoBehaviour
         if(!IsLookingAtDoor())
             promptUI.SetActive(false);
 
-        else
+        else if (IsLookingAtDoor() && character.hasDynamite == true)
         {
             promptUI.SetActive(true);
 
@@ -54,6 +60,13 @@ public class VaultScript : MonoBehaviour
                 promptUI.SetActive(false);
 
                 character.hasDynamite = false;
+
+                if(vaultOpenVFX != null)
+                {
+                    VaultExplosion.Play();
+                    vaultOpenVFX.Clear();
+                    vaultOpenVFX.Play();
+                }
             }
         }
 
@@ -63,7 +76,7 @@ public class VaultScript : MonoBehaviour
 
             if(Quaternion.Angle(transform.localRotation,openRotation) < 0.5f)
             {
-                transform.rotation = openRotation;
+                transform.localRotation = openRotation;
                 isOpening = false;
             }
         }
