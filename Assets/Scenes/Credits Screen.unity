@@ -679,10 +679,29 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Daniel Krupczak - Lead - designer\nJack Hardy - Programming - guard ai,
-    gun\nDrew Prato - programming, voices - guard\nIan Ramage - programming, world
-    assets\nHaaris Patel - audio, world assets\nDavid Wheeler - World assets\nJadon
-    Falkenstein - \nJaiden Nicholson - \nDawson Leet - \n"
+  m_text: 'Daniel Krupczak - Lead - designer
+
+    Jack Hardy - Programming - guard
+    ai, gun
+
+    Drew Prato - programming, voices - guard
+
+    Ian Ramage - programming,
+    world assets
+
+    Haaris Patel - audio, world assets
+
+    David Wheeler - World
+    assets
+
+    Jadon Falkenstein - World assets
+
+    Jaiden Nicholson - World assets
+
+    Dawson
+    Leet - World assets
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c035b24f1f6fd424d8ce28a8b15e6db6, type: 2}
   m_sharedMaterial: {fileID: 6331660088256002617, guid: c035b24f1f6fd424d8ce28a8b15e6db6, type: 2}

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class CharacterControllerScript : MonoBehaviour
 {

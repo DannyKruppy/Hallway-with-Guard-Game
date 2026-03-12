@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +23,9 @@ public class GunScript : MonoBehaviour
 
     public TextMeshProUGUI reserveText;
     public GameObject textHolder;
+
+    private AudioSource audioSource;
+    public AudioClip shotClip;
 
     public int SpareAmmo
     {
@@ -70,6 +72,8 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         controls = new Controls();
         controls.Player.Enable();
 
@@ -121,6 +125,7 @@ public class GunScript : MonoBehaviour
     {
         if (ammo > 0)
         {
+            audioSource.PlayOneShot(shotClip);
             Ammo--;
 
             RaycastHit hit;
@@ -220,4 +225,6 @@ public class GunScript : MonoBehaviour
         else
             textHolder.SetActive(true);
     }
+
+   
 }

@@ -59,13 +59,18 @@ public class EnemyScript : MonoBehaviour
 
     private AudioSource audioSource;
     public AudioClip aggroClip;
-    //public AudioClip hitClip;
+    public AudioClip hitClip;
     public AudioClip lostClip;
 
     bool hasPlayedAggro = false;
-    bool hasPlayedLost = false;
+    
 
-    private float attackReady = 0;
+    private float attackReady = 0f;
+
+    private float sfxReady = 6f;
+
+    public float waypointDelay = 2f;
+    private float waypointTimer = 0f;
 
 
     void Start()
@@ -83,6 +88,11 @@ public class EnemyScript : MonoBehaviour
 
         suspicion = Mathf.Clamp(suspicion, 0f, 100f);
         suspicionText.text = ("Suspicion %: " + suspicion);
+
+        if (sfxReady > 6f)
+        {
+            sfxReady = 6f;
+        }
 
         if (stunVal > 0)
         {
@@ -119,10 +129,11 @@ public class EnemyScript : MonoBehaviour
             hadLineOfSight = true;
 
             //play aggro audio
-            if (!hasPlayedAggro)
+            if (!hasPlayedAggro && sfxReady >= 6f)
             {
                 audioSource.PlayOneShot(aggroClip);
                 hasPlayedAggro = true;
+                sfxReady -= 6f;
             }
             
             //set player as movement target and increase stoppin distnce
@@ -150,8 +161,15 @@ public class EnemyScript : MonoBehaviour
 
         if (suspicion < suspicionMax && !searching && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            NextWaypoint();
+            waypointTimer += Time.deltaTime;
+            if (waypointTimer >= waypointDelay)
+            {
+                NextWaypoint();
+                waypointTimer = 0f;
+            }
         }
+
+        sfxReady += Time.deltaTime;
     }
 
     IEnumerator SearchForPlayer()
@@ -195,6 +213,7 @@ public class EnemyScript : MonoBehaviour
     {
         stunVal = maxStun;
         suspicion = suspicionMax;
+        audioSource.PlayOneShot(hitClip);
     }
 
     void Attack()
